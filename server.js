@@ -8,7 +8,14 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "https://cautious-ruddy-web.glitch.me", // 여러분들 거
+    methods: ["POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 app.post("/", async (req, res) => {
   const { TOGETHER_API_KEY, GROQ_API_KEY } = process.env;
@@ -82,7 +89,7 @@ app.post("/", async (req, res) => {
     apiKey: GROQ_API_KEY,
     model: GROQ_LLAMA_MODEL,
     // text,
-    text: `${text}를 바탕으로 맛집 추천에 어울리는 AI 이미지 생성을 위한 200자 이내의 영어 프롬프트를 작성해줘`,
+    text: `${text}를 바탕으로 게임 추천에 어울리는 AI 이미지 생성을 위한 200자 이내의 영어 프롬프트를 작성해줘`,
   }).then((res) => res.choices[0].message.content);
   // 2-2. 그거에서 프롬프트만 JSON으로 추출
   // mixtral-8x7b-32768	(groq)
@@ -115,7 +122,7 @@ app.post("/", async (req, res) => {
     apiKey: GROQ_API_KEY,
     model: GROQ_LLAMA_MODEL,
     // text,
-    text: `${text}를 바탕으로 맛집 추천에 어울리는 설명 생성을 위한 200자 이내의 한글 프롬프트를 작성해줘`,
+    text: `${text}를 바탕으로 게임 추천에 어울리는 설명 생성을 위한 200자 이내의 한글 프롬프트를 작성해줘`,
   }).then((res) => res.choices[0].message.content);
   console.log(prompt2);
   // 3-2. 그거에서 프롬프트만 추출
@@ -135,7 +142,7 @@ app.post("/", async (req, res) => {
     url: `${TOGETHER_BASE_URL}/v1/chat/completions`,
     apiKey: TOGETHER_API_KEY,
     model: DEEPSEEK_MODEL,
-    text: `${promptJSON2}를 기반으로 마크다운 문법 없이 평문으로 작성해주고 한글 결과물을 원하고, 엔터로 줄바꿈을 넣어줘.`,
+    text: `${promptJSON2}를 기반으로 마크다운 문법 으로 작성해주고 한글 결과물을 원하고, 엔터로 줄바꿈을 넣어줘.`,
     max_tokens: 2048,
   }).then((res) => res.choices[0].message.content.split("</think>")[1]);
   console.log(desc);
