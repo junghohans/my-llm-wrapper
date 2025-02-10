@@ -11,7 +11,7 @@ app.use(express.json());
 // app.use(cors());
 app.use(
   cors({
-    origin: "https://cautious-ruddy-web.glitch.me", // 여러분들 거
+    origin: "https://junghohans.github.io", // 여러분들 거
     methods: ["POST"],
     allowedHeaders: ["Content-Type"],
   })
